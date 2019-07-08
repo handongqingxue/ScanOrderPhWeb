@@ -334,63 +334,56 @@ function showOrderedListDiv(){
 	var orderedListDiv=$("#orderedList_div");
 	if(orderedListDiv.css("display")=="none"){
 		orderedListDiv.css("display","block");
-		orderedListDiv.empty();
-		orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;text-align: center;\">"
-				+"<span style=\"margin-right: 20px;float: right;color: #999;\" onclick=\"clearAllFoodList();\">清空</span>"
-				+"</div>");
+		orderedListDiv.find("div[id^='item']").remove();
 		
 		$("#categoryList_div .item").each(function(){
 			var categoryId=$(this).attr("id").substring(8);
 			var goods=$(goodsListArr[categoryId]);
 			$(goods).each(function(i){
+				var id=$(this).attr("id").substring(4);
 				var quantity=$(this).find("input[class='count_input']").val();
 				var productName=$(this).find("div[class='productName_div']").text();
 				var price=$(this).find("div[class='price_div']").text();
 				if(quantity>0){
-					orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;\">"
+					orderedListDiv.append("<div id=\"item"+id+"\" style=\"width: 100%;height: 40px;line-height: 40px;\">"
 						+"<div style=\"margin-left: 20px;float: left;width: 150px;color:#494949;\">"+productName+"</div>"
 						+"<div style=\"margin-left: 0px;float: left;width: 70px;color:#ec6c09;\">"+price+"</div>"
-						+"<div style=\"width:120px;height: 40px;line-height: 40px;margin-left: :0px;float: left;\">"
-						+"<img src=\""+path+"/phone/image/002.png\" style=\"width:20px;height:20px;\"></img>"
-						+"<span>"+quantity+"</span>"
-						+"<img src=\""+path+"/phone/image/003.png\" style=\"width:20px;height:20px;\"></img>"
+						+"<div style=\"height: 30px;line-height: 30px;float:right;margin-top:10px;margin-right:20px;\">"
+						+"<img src=\""+path+"/phone/image/002.png\" ontouchstart=\"reduceProduct("+id+")\" style=\"width:20px;height:20px;\"></img>"
+						+"<div class=\"quantity_span\" style=\"width:50px;margin-top: -25px;margin-left:30px;position:absolute;\">"+quantity+"</div>"
+						+"<img src=\""+path+"/phone/image/003.png\" ontouchstart=\"plusProduct("+id+")\" style=\"width:20px;height:20px;margin-top: -30px;margin-left:30px;\"></img>"
 						+"</div>"
 						+"</div>");
 				}
 			});
 		});
-		
-		
-		/*
-		$.post(path+"/phoneAction_getOrderDetailsByOrderNumberOL.action",
-			{shopId: '${sessionScope.shopId}'},
-			function(result){
-				orderedListDiv.empty();
-				if (result.code == 100){
-					orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;text-align: center;\">"
-							+"<span style=\"margin-right: 20px;float: right;color: #999;\" onclick=\"clearAllFoodList();\">清空</span>"
-							+"</div>");
-					var productList=result.data.productList;
-					for(var i=0;i<productList.length;i++){
-						orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;\">"
-							+"<div style=\"margin-left: 20px;float: left;width: 150px;color:#494949;\">"+productList[i].productName+"</div>"
-							+"<div style=\"margin-left: 0px;float: left;width: 70px;color:#ec6c09;\">￥"+productList[i].price+"</div>"
-							+"<div style=\"width:120px;height: 40px;line-height: 40px;margin-left: :0px;float: left;\">"
-							+"<img src=\""+path+"/phone/image/002.png\" style=\"width:20px;height:20px;\"></img>"
-							+"<span>"+productList[i].quantity+"</span>"
-							+"<img src=\""+path+"/phone/image/003.png\" style=\"width:20px;height:20px;\"></img>"
-							+"</div>"
-							+"</div>");
-					}
-				}
-			}
-		);
-		*/
 	}
 	else{
 		orderedListDiv.css("display","none");
-		orderedListDiv.empty();
+		orderedListDiv.find("div[id^='item']").remove();
 	}
+}
+
+function reduceProduct(id){
+	var span=$("#orderedList_div #item"+id).find("span[class^='quantity_span']");
+	var quantity=span.text();
+	quantity--;
+	if (quantity<1){
+		$("#orderedList_div #item"+id).remove();
+	}
+    else{
+    	span.text(quantity);
+    }
+	removeGood(id);
+}
+
+function plusProduct(id){
+	var span=$("#orderedList_div #item"+id).find("span[class^='quantity_span']");
+	var quantity=span.text();
+	quantity++;
+	console.log(quantity);
+	span.text(quantity);
+	addGood(id);
 }
 
 function clearAllFoodList(){
@@ -476,7 +469,10 @@ function goOrder(){
 </div>
 
 <div id="orderedList_div" style="width: 100%;height:400px;background-color: #fff;position: fixed;bottom: 60px;display: none;overflow-y:auto;">
-	
+	<div style="width: 100%;height: 40px;line-height: 40px;text-align: center;background-color: #dd5911;">
+		<span style="margin-left: 20px;float: left;color: #fff;">已选商品</span>
+		<span style="margin-right: 20px;float: right;color: #fff;" onclick="clearAllFoodList();">清空</span>
+	</div>
 </div>
 </body>
 </html>
