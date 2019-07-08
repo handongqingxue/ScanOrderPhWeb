@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author 马鹏�?
+ * @author 马鹏�?
  * @date {2018-2-5}
  * @des 保存本次点餐已点商品信息
  * @updateAuthor
@@ -41,5 +41,9 @@ public class AlreadySelectFoodData {
         allFood.add(bean);
         return;
     }
+    
+    public static void clearAllFoodList() {
+    	allFood.clear();
+	}
 
 }

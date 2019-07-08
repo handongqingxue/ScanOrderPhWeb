@@ -368,6 +368,15 @@ public class PhoneAction extends BaseActionSupport {
 		return SUCCESS;
 	}
 	
+	public String clearAllFoodList() {
+		
+		AlreadySelectFoodData.clearAllFoodList();
+		resultMap = new HashMap<String, Object>();
+		resultMap.put("code", 100);
+		
+		return SUCCESS;
+	}
+	
 	public String checkIfAlreadyExistOrder() {
 
 		List<NameValuePair> params=new ArrayList<NameValuePair>();

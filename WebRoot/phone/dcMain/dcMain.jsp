@@ -260,6 +260,12 @@ function calulateMoneyAndAmount(){
 		    price += $(this).find("div[class='price_div']").text().substring(1)*parseInt($(this).find("input[class='count_input']").val());
 		});
 	});
+	if(mount==0){
+		$("#gwc_img").removeAttr("onclick");
+	}
+	else{
+		$("#gwc_img").attr("onclick","showOrderedListDiv()");
+	}
 	$("#ftm_div").text(mount);
 	$("#sum_price_div").text("￥"+price);
 }
@@ -324,6 +330,82 @@ function nextAction(gsList, type){
 	);
 }
 
+function showOrderedListDiv(){
+	var orderedListDiv=$("#orderedList_div");
+	if(orderedListDiv.css("display")=="none"){
+		orderedListDiv.css("display","block");
+		orderedListDiv.empty();
+		orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;text-align: center;\">"
+				+"<span style=\"margin-right: 20px;float: right;color: #999;\" onclick=\"clearAllFoodList();\">清空</span>"
+				+"</div>");
+		
+		$("#categoryList_div .item").each(function(){
+			var categoryId=$(this).attr("id").substring(8);
+			var goods=$(goodsListArr[categoryId]);
+			$(goods).each(function(i){
+				var quantity=$(this).find("input[class='count_input']").val();
+				var productName=$(this).find("div[class='productName_div']").text();
+				var price=$(this).find("div[class='price_div']").text();
+				if(quantity>0){
+					orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;\">"
+						+"<div style=\"margin-left: 20px;float: left;width: 150px;color:#494949;\">"+productName+"</div>"
+						+"<div style=\"margin-left: 0px;float: left;width: 70px;color:#ec6c09;\">"+price+"</div>"
+						+"<div style=\"width:120px;height: 40px;line-height: 40px;margin-left: :0px;float: left;\">"
+						+"<img src=\""+path+"/phone/image/002.png\" style=\"width:20px;height:20px;\"></img>"
+						+"<span>"+quantity+"</span>"
+						+"<img src=\""+path+"/phone/image/003.png\" style=\"width:20px;height:20px;\"></img>"
+						+"</div>"
+						+"</div>");
+				}
+			});
+		});
+		
+		
+		/*
+		$.post(path+"/phoneAction_getOrderDetailsByOrderNumberOL.action",
+			{shopId: '${sessionScope.shopId}'},
+			function(result){
+				orderedListDiv.empty();
+				if (result.code == 100){
+					orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;text-align: center;\">"
+							+"<span style=\"margin-right: 20px;float: right;color: #999;\" onclick=\"clearAllFoodList();\">清空</span>"
+							+"</div>");
+					var productList=result.data.productList;
+					for(var i=0;i<productList.length;i++){
+						orderedListDiv.append("<div style=\"width: 100%;height: 40px;line-height: 40px;\">"
+							+"<div style=\"margin-left: 20px;float: left;width: 150px;color:#494949;\">"+productList[i].productName+"</div>"
+							+"<div style=\"margin-left: 0px;float: left;width: 70px;color:#ec6c09;\">￥"+productList[i].price+"</div>"
+							+"<div style=\"width:120px;height: 40px;line-height: 40px;margin-left: :0px;float: left;\">"
+							+"<img src=\""+path+"/phone/image/002.png\" style=\"width:20px;height:20px;\"></img>"
+							+"<span>"+productList[i].quantity+"</span>"
+							+"<img src=\""+path+"/phone/image/003.png\" style=\"width:20px;height:20px;\"></img>"
+							+"</div>"
+							+"</div>");
+					}
+				}
+			}
+		);
+		*/
+	}
+	else{
+		orderedListDiv.css("display","none");
+		orderedListDiv.empty();
+	}
+}
+
+function clearAllFoodList(){
+	if(confirm("清空购物车?")){
+		$.post(path+"/phoneAction_clearAllFoodList.action",
+			{shopId: '${sessionScope.shopId}'},
+			function(result){
+				if (result.code == 100){
+					location.href=location.href;
+				}
+			}
+		);
+	}
+}
+
 function goOrder(){
 	location.href=path+"/phone/orderDetail/orderDetail.jsp";
 }
@@ -360,7 +442,7 @@ function goOrder(){
     </div>
   <div class='space_div'></div>
   <div class='bottom_div'>
-    <img class="gwc_img" src="<%=path %>/phone/image/004.png"></img>
+    <img class="gwc_img" id="gwc_img" src="<%=path %>/phone/image/004.png" onclick="showOrderedListDiv();"></img>
     <div class="ftm_div" id="ftm_div">
     </div>
     <div class='qjs_div' onclick="quJieSuan()">
@@ -391,6 +473,10 @@ function goOrder(){
     </div>
   </div>
    -->
+</div>
+
+<div id="orderedList_div" style="width: 100%;height:400px;background-color: #fff;position: fixed;bottom: 60px;display: none;overflow-y:auto;">
+	
 </div>
 </body>
 </html>

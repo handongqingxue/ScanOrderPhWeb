@@ -66,6 +66,11 @@
         		<param name="root">resultMap</param>
         	</result>
         </action>
+        <action name="phoneAction_clearAllFoodList" class="PhoneAction" method="clearAllFoodList">
+        	<result name="success" type="json">
+        		<param name="root">resultMap</param>
+        	</result>
+        </action>
         <action name="phoneAction_checkIfAlreadyExistOrder" class="PhoneAction" method="checkIfAlreadyExistOrder">
         	<result name="success" type="json">
         		<param name="root">resultMap</param>
