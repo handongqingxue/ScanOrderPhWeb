@@ -447,6 +447,18 @@ public class PhoneAction extends BaseActionSupport {
 	    return false;
 	}
 	
+	public String checkIfAlreadySelectFood() {
+		
+		int size = AlreadySelectFoodData.getAllFoodList().size();
+		resultMap=new HashMap<String, Object>();
+		if(size>0)
+			resultMap.put("result", "1");
+		else
+			resultMap.put("result", "0");
+		
+		return SUCCESS;
+	}
+	
 	public String reduceProduct() {
 		
 		System.out.println("reduceProduct.id==="+id);

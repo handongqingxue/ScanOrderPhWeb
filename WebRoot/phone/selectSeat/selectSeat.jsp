@@ -39,7 +39,16 @@ function getShopSeatInfoById(){
 }
 
 function toDcMain(seatName){
-	location.href=path+"/phoneAction_toDcMain.action?seatName="+seatName;
+	$.post("phoneAction_checkIfAlreadySelectFood.action",
+		function(res){
+			var jiacaiParam="&";
+			var result=res.result;
+			if(result==1){
+				jiacaiParam+="jiacai=jiacai";
+			}
+			location.href=path+"/phoneAction_toDcMain.action?seatName="+seatName+jiacaiParam;
+		}
+	,"json");
 }
 </script>
 <title>选择桌号</title>

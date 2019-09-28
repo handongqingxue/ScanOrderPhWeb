@@ -121,5 +121,10 @@
         		<param name="root">resultMap</param>
         	</result>
         </action>
+        <action name="phoneAction_checkIfAlreadySelectFood" class="PhoneAction" method="checkIfAlreadySelectFood">
+        	<result name="success" type="json">
+        		<param name="root">resultMap</param>
+        	</result>
+        </action>
 	</package>
 </struts>    
