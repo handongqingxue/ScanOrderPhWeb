@@ -350,7 +350,7 @@ function showOrderedListDiv(){
 						+"<div style=\"margin-left: 0px;float: left;width: 70px;color:#ec6c09;\">"+price+"</div>"
 						+"<div style=\"height: 30px;line-height: 30px;float:right;margin-top:10px;margin-right:20px;\">"
 						+"<img src=\""+path+"/phone/image/002.png\" ontouchstart=\"reduceProduct("+id+")\" style=\"width:20px;height:20px;\"></img>"
-						+"<div class=\"quantity_span\" style=\"width:50px;margin-top: -25px;margin-left:30px;position:absolute;\">"+quantity+"</div>"
+						+"<div class=\"quantity_div\" style=\"width:30px;margin-top: -25px;margin-left:20px;text-align:center;position:absolute;\">"+quantity+"</div>"
 						+"<img src=\""+path+"/phone/image/003.png\" ontouchstart=\"plusProduct("+id+")\" style=\"width:20px;height:20px;margin-top: -30px;margin-left:30px;\"></img>"
 						+"</div>"
 						+"</div>");
@@ -365,24 +365,23 @@ function showOrderedListDiv(){
 }
 
 function reduceProduct(id){
-	var span=$("#orderedList_div #item"+id).find("span[class^='quantity_span']");
-	var quantity=span.text();
+	var div=$("#orderedList_div #item"+id).find("div[class^='quantity_div']");
+	var quantity=div.text();
 	quantity--;
 	if (quantity<1){
 		$("#orderedList_div #item"+id).remove();
 	}
     else{
-    	span.text(quantity);
+    	div.text(quantity);
     }
 	removeGood(id);
 }
 
 function plusProduct(id){
-	var span=$("#orderedList_div #item"+id).find("span[class^='quantity_span']");
-	var quantity=span.text();
+	var div=$("#orderedList_div #item"+id).find("div[class^='quantity_div']");
+	var quantity=div.text();
 	quantity++;
-	console.log(quantity);
-	span.text(quantity);
+	div.text(quantity);
 	addGood(id);
 }
 

@@ -29,7 +29,7 @@ function getShopSeatInfoById(){
 			if (result.code == 100) {
 				var seatList=result.data;
 				for(var i=0;i<seatList.length;i++){
-					seatListDiv.append("<div style=\"width:21%;height:40px;line-height:40px;margin-top:1%;margin-left:1%;text-align:center;float:left;border:#999 solid 1px;\" onclick=\"toDcMain('"+seatList[i].seatName+"')\">"
+					seatListDiv.append("<div style=\"width:21%;height:40px;line-height:40px;margin-top:1%;margin-left:1%;text-align:center;float:left;border:#999 solid 1px;background-color: #"+(seatList[i].seatStatus==1?"cc5b67":"b0b0b0")+";\" onclick=\"toDcMain('"+seatList[i].seatName+"')\">"
 					+seatList[i].seatName
 					+"</div>");
 				}

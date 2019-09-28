@@ -198,10 +198,7 @@ public class PhoneAction extends BaseActionSupport {
 	 * 请求远程服务器接口前缀常量
 	 * **/
 	private static final String ROOT_IP = "http://120.27.5.36:8080/htkApp/API/buffetFoodAPI/";
-	//private static final String ROOT_IP = "http://120.27.5.36:8080/htkApp/API/buffetFoodAPI/";
 	//private static final String ROOT_IP = "http://192.168.230.1:8088/htkApp/API/buffetFoodAPI/";
-	//private static final String ROOT_IP = "http://192.168.230.1:8088/htkApp/API/buffetFoodAPI/";
-	//private static final String ROOT_IP = "https://www.bainuojiaoche.com/htkApp/API/buffetFoodAPI/";
 	private static final String ROOT_IP1 = "http://120.27.5.36:8080/htkApp/API/wxScanUserAPI/";
 	//private static final String ROOT_IP1 = "http://127.0.0.1:8088/htkApp/API/wxScanUserAPI/";
 	private static final String ROOT_IP2 = "http://120.27.5.36:8080/htkApp/API/phWebScanUserAPI/";
@@ -264,7 +261,7 @@ public class PhoneAction extends BaseActionSupport {
 		List<NameValuePair> params=new ArrayList<NameValuePair>();
 		params.add(0, new BasicNameValuePair("shopId", shopId));
 		try {
-			resultMap=getRespJson(ROOT_IP+"getShopSeatInfoById", params);
+			resultMap=getRespJson(ROOT_IP2+"getShopSeatInfoById", params);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -548,6 +545,10 @@ public class PhoneAction extends BaseActionSupport {
 			params.add(6, new BasicNameValuePair("discountCouponId", discountCouponId+""));
 			params.add(7, new BasicNameValuePair("token", token));
 			resultMap=getRespJson(ROOT_IP+"confirmOrderButton", params);
+			JSONObject resultJO = (JSONObject)resultMap.get("result");
+			Integer code = Integer.valueOf(resultJO.get("code").toString());
+			if(code==100)
+				AlreadySelectFoodData.clearAllFoodList();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
